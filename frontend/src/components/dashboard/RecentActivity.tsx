@@ -41,7 +41,7 @@ export function RecentActivity() {
   ];
 
   return (
-    <div className="bg-white p-8 rounded-[2.5rem] border border-border shadow-sm">
+    <div className="bg-white p-6 md:p-8 rounded-[2.5rem] border border-border shadow-sm">
       <div className="flex items-center justify-between mb-8">
         <h3 className="font-syne font-bold text-lg text-text-primary">Recent Activity</h3>
         <button className="text-xs font-bold text-primary hover:underline">View All</button>

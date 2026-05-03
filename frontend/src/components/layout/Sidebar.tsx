@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toggleSidebar } from '@/store/slices/uiSlice';
 import { 
   LayoutDashboard, ShoppingCart, Users, Package, 
   ChevronDown, LogOut, ShieldCheck, ShoppingBag,
@@ -66,11 +67,32 @@ export function Sidebar() {
   };
 
   return (
-    <motion.aside
-      initial={false}
-      animate={{ width: isOpen ? 288 : 80 }}
-      className="bg-white border-r border-border flex flex-col h-screen fixed left-0 top-0 z-40 overflow-hidden"
-    >
+    <>
+      {/* Mobile Backdrop */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => dispatch(toggleSidebar())}
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
+          />
+        )}
+      </AnimatePresence>
+
+      <motion.aside
+        initial={false}
+        animate={{ 
+          width: isOpen ? 288 : 80,
+          x: isOpen ? 0 : (typeof window !== 'undefined' && window.innerWidth < 768 ? -288 : 0)
+        }}
+        className={cn(
+          "bg-white border-r border-border flex flex-col h-screen fixed top-0 z-50 overflow-hidden transition-all",
+          !isOpen && "md:w-20",
+          isOpen ? "left-0" : "-left-72 md:left-0"
+        )}
+      >
       {/* Brand */}
       <div className="h-16 flex items-center px-6 border-b border-border flex-shrink-0">
         <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">

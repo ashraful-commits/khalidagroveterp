@@ -30,16 +30,16 @@ export function Header() {
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 md:gap-3">
         <button className="p-2 hover:bg-surface-2 rounded-lg transition-colors text-text-secondary relative">
           <Bell className="w-5 h-5" />
           <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full border-2 border-white" />
         </button>
-        <button className="p-2 hover:bg-surface-2 rounded-lg transition-colors text-text-secondary">
+        <button className="hidden sm:block p-2 hover:bg-surface-2 rounded-lg transition-colors text-text-secondary">
           <SettingsIcon className="w-5 h-5" />
         </button>
         
-        <div className="flex bg-surface-2 p-1 rounded-lg border border-border">
+        <div className="flex bg-surface-2 p-1 rounded-lg border border-border scale-90 sm:scale-100">
           <button 
             onClick={() => dispatch(setLanguage('en'))}
             className={cn(
@@ -60,9 +60,9 @@ export function Header() {
           </button>
         </div>
 
-        <div className="h-8 w-px bg-border mx-1" />
+        <div className="h-8 w-px bg-border mx-0 md:mx-1" />
 
-        <div className="flex items-center gap-3 ml-1 cursor-pointer hover:bg-surface-2 p-1.5 rounded-lg transition-colors">
+        <div className="flex items-center gap-2 md:gap-3 ml-1 cursor-pointer hover:bg-surface-2 p-1 md:p-1.5 rounded-lg transition-colors">
           <div className="text-right hidden sm:block">
             <p className="text-sm font-bold text-text-primary leading-none">{user?.name || 'Admin User'}</p>
             <p className="text-xs text-text-muted mt-1 leading-none font-medium uppercase tracking-wider">{user?.role || 'Super Admin'}</p>

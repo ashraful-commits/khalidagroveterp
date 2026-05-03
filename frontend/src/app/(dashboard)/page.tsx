@@ -32,11 +32,11 @@ export default function DashboardPage() {
   return (
     <div ref={containerRef} className="space-y-8 pb-12">
       {/* Top Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
         <div className="lg:col-span-2">
           <WelcomeCard />
         </div>
-        <div className="bg-white rounded-[2.5rem] p-8 border border-border shadow-sm flex flex-col justify-between relative overflow-hidden group">
+        <div className="bg-white rounded-[2.5rem] p-6 md:p-8 border border-border shadow-sm flex flex-col justify-between relative overflow-hidden group">
           <div className="absolute -top-12 -right-12 w-48 h-48 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors" />
           <div>
             <div className="flex items-center justify-between mb-6">
@@ -89,10 +89,10 @@ export default function DashboardPage() {
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-        <div className="xl:col-span-2 space-y-8">
-          <div className="bg-white p-8 rounded-[2.5rem] border border-border shadow-sm">
-            <div className="flex items-center justify-between mb-8">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 md:gap-8">
+        <div className="xl:col-span-2 space-y-6 md:space-y-8">
+          <div className="bg-white p-6 md:p-8 rounded-[2.5rem] border border-border shadow-sm">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
               <div>
                 <h3 className="text-xl font-syne font-bold text-text-primary">Revenue Performance</h3>
                 <p className="text-sm text-text-muted mt-1">Actual vs Target for the current quarter</p>
@@ -102,13 +102,13 @@ export default function DashboardPage() {
                 <button className="px-4 py-2 text-xs font-bold bg-primary text-white rounded-xl shadow-lg shadow-primary/20">Monthly</button>
               </div>
             </div>
-            <div className="h-[350px]">
+            <div className="h-[250px] md:h-[350px]">
               <SalesChart />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white p-8 rounded-[2.5rem] border border-border shadow-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            <div className="bg-white p-6 md:p-8 rounded-[2.5rem] border border-border shadow-sm">
               <h4 className="font-syne font-bold text-lg mb-6">Production Queue</h4>
               <div className="space-y-6">
                 {[
@@ -131,7 +131,7 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <div className="bg-white p-8 rounded-[2.5rem] border border-border shadow-sm relative overflow-hidden">
+            <div className="bg-white p-6 md:p-8 rounded-[2.5rem] border border-border shadow-sm relative overflow-hidden">
               <div className="relative z-10">
                 <h4 className="font-syne font-bold text-lg mb-4 text-text-primary">Quick Actions</h4>
                 <div className="grid grid-cols-2 gap-3">
