@@ -123,7 +123,7 @@ export function DataTable<TData, TValue>({
             {loading ? (
               <tr><td colSpan={columns.length} className="p-4"><TableSkeleton rows={pageSize} cols={columns.length} /></td></tr>
             ) : table.getRowModel().rows.length === 0 ? (
-              <tr><td colSpan={columns.length}><EmptyState type="search" title={emptyTitle} description={emptyDescription} /></td></tr>
+              <tr><td colSpan={columns.length}><EmptyState title={emptyTitle ?? 'No data found'} description={emptyDescription ?? 'Try adjusting your search or filters.'} /></td></tr>
             ) : (
               table.getRowModel().rows.map((row, idx) => (
                 <motion.tr key={row.id}

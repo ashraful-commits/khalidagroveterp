@@ -30,8 +30,8 @@ const iconBgStyles = {
 export function KPICard({ title, value, trend, trendType, icon: Icon, color }: KPICardProps) {
   const renderIcon = (size: number, className?: string) => {
     if (!Icon) return null;
-    // Check if Icon is a function (component) or a valid React element
-    if (typeof Icon === 'function') {
+    // Lucide icons are often forwardRef components (objects)
+    if (typeof Icon === 'function' || typeof Icon === 'object') {
       return <Icon size={size} className={className} />;
     }
     return Icon;

@@ -58,7 +58,11 @@ export function RecentActivity() {
             <div className={`w-10 h-10 rounded-xl bg-surface-2 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
               {(() => {
                 const Icon = item.icon;
-                return <Icon size={18} className="text-text-muted" />;
+                if (!Icon) return null;
+                if (typeof Icon === 'function' || typeof Icon === 'object') {
+                  return <Icon size={18} className="text-text-muted" />;
+                }
+                return Icon;
               })()}
             </div>
             <div className="flex-1">

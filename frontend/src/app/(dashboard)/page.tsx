@@ -145,7 +145,11 @@ export default function DashboardPage() {
                       <div className="p-2 bg-white rounded-lg text-text-muted group-hover:text-primary transition-colors">
                         {(() => {
                           const Icon = btn.icon;
-                          return <Icon size={18} />;
+                          if (!Icon) return null;
+                          if (typeof Icon === 'function' || typeof Icon === 'object') {
+                            return <Icon size={18} />;
+                          }
+                          return Icon;
                         })()}
                       </div>
                       <span className="text-[10px] font-bold text-text-secondary uppercase">{btn.label}</span>

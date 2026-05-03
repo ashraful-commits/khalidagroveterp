@@ -571,13 +571,14 @@ model Bonus {
 
 // --- PRODUCTION ---
 model BOM {
-  id               String    @id @default(uuid())
+  id               String            @id @default(uuid())
   finishedProductId String
   name             String
   items            BOMItem[]
-  finishedProduct  Product   @relation("FinishedProduct", fields: [finishedProductId], references: [id])
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  productionOrders ProductionOrder[]
+  finishedProduct  Product           @relation("FinishedProduct", fields: [finishedProductId], references: [id])
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
 }
 
 model BOMItem {
@@ -597,6 +598,7 @@ model ProductionOrder {
   status      ProductionStatus @default(PLANNED)
   startDate   DateTime?
   endDate     DateTime?
+  bom         BOM              @relation(fields: [bomId], references: [id])
   steps       ProductionStep[]
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
