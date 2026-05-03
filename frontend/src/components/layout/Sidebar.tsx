@@ -27,6 +27,7 @@ export function Sidebar() {
     { label: t('sales'), icon: ShoppingCart, href: '/sales', subItems: [
       { title: 'Customers', href: '/sales/customers' },
       { title: 'Invoices', href: '/sales/invoices' },
+      { title: 'Quotations', href: '/sales/quotations' },
       { title: 'Collections', href: '/sales/collections' },
       { title: 'Returns', href: '/sales/returns' },
       { title: 'Sales Targets', href: '/sales/target' },
@@ -34,6 +35,7 @@ export function Sidebar() {
     { label: t('purchase'), icon: ShoppingBag, href: '/purchase', subItems: [
       { title: 'Vendors', href: '/purchase/vendors' },
       { title: 'Requisitions', href: '/purchase/requisitions' },
+      { title: 'Quotations', href: '/purchase/quotations' },
       { title: 'Purchase Orders', href: '/purchase/orders' },
       { title: 'Payments', href: '/purchase/payments' },
       { title: 'GRN', href: '/purchase/grn' },
@@ -44,10 +46,13 @@ export function Sidebar() {
       { title: 'Warehouses', href: '/inventory/warehouses' },
       { title: 'Stock Ledger', href: '/inventory/stock' },
       { title: 'Transfers', href: '/inventory/transfer' },
+      { title: 'QA Management', href: '/inventory/qa' },
     ]},
     { label: t('accounting'), icon: Calculator, href: '/accounting', subItems: [
       { title: 'Chart of Accounts', href: '/accounting/coa' },
+      { title: 'Finance & Banking', href: '/accounting/finance' },
       { title: 'Journals', href: '/accounting/journals' },
+      { title: 'Expenses', href: '/accounting/expenses' },
       { title: 'Reports', href: '/accounting/reports' },
     ]},
     { label: t('hr'), icon: Users, href: '/hr', subItems: [
@@ -59,6 +64,7 @@ export function Sidebar() {
     { label: t('production'), icon: Factory, href: '/production', subItems: [
       { title: 'BOM Management', href: '/production/boms' },
       { title: 'Production Orders', href: '/production/orders' },
+      { title: 'Production Entry', href: '/production/entry' },
       { title: 'Live Tracking', href: '/production/tracking' },
     ]},
     { label: t('assets'), icon: Building, href: '/assets', subItems: [
