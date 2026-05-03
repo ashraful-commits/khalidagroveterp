@@ -28,12 +28,16 @@ export function Sidebar() {
       { title: 'Customers', href: '/sales/customers' },
       { title: 'Invoices', href: '/sales/invoices' },
       { title: 'Collections', href: '/sales/collections' },
+      { title: 'Returns', href: '/sales/returns' },
       { title: 'Sales Targets', href: '/sales/target' },
     ]},
     { label: t('purchase'), icon: ShoppingBag, href: '/purchase', subItems: [
       { title: 'Vendors', href: '/purchase/vendors' },
       { title: 'Requisitions', href: '/purchase/requisitions' },
       { title: 'Purchase Orders', href: '/purchase/orders' },
+      { title: 'Payments', href: '/purchase/payments' },
+      { title: 'GRN', href: '/purchase/grn' },
+      { title: 'Returns', href: '/purchase/returns' },
     ]},
     { label: t('inventory'), icon: Package, href: '/inventory', subItems: [
       { title: 'Products', href: '/inventory/products' },
@@ -49,13 +53,18 @@ export function Sidebar() {
     { label: t('hr'), icon: Users, href: '/hr', subItems: [
       { title: 'Employees', href: '/hr/employees' },
       { title: 'Attendance', href: '/hr/attendance' },
+      { title: 'Leaves', href: '/hr/leaves' },
       { title: 'Payroll', href: '/hr/payroll' },
     ]},
     { label: t('production'), icon: Factory, href: '/production', subItems: [
       { title: 'BOM Management', href: '/production/boms' },
+      { title: 'Production Orders', href: '/production/orders' },
       { title: 'Live Tracking', href: '/production/tracking' },
     ]},
-    { label: t('assets'), icon: Building, href: '/assets' },
+    { label: t('assets'), icon: Building, href: '/assets', subItems: [
+      { title: 'Registration', href: '/assets/registration' },
+      { title: 'Maintenance', href: '/assets/maintenance' },
+    ]},
     { label: t('crm'), icon: MessageSquare, href: '/crm', subItems: [
       { title: 'Doctors', href: '/crm/doctor' },
       { title: 'Chemists', href: '/crm/chemist' },
