@@ -1,4 +1,6 @@
 import { PrismaClient } from '@prisma/client';
+// Ensure types are picked up
+import type * as _PrismaClient from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 import bcrypt from 'bcryptjs';
