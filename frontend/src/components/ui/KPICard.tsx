@@ -28,6 +28,15 @@ const iconBgStyles = {
 };
 
 export function KPICard({ title, value, trend, trendType, icon: Icon, color }: KPICardProps) {
+  const renderIcon = (size: number, className?: string) => {
+    if (!Icon) return null;
+    // Check if Icon is a function (component) or a valid React element
+    if (typeof Icon === 'function') {
+      return <Icon size={size} className={className} />;
+    }
+    return Icon;
+  };
+
   return (
     <motion.div 
       whileHover={{ y: -5 }}
@@ -35,7 +44,7 @@ export function KPICard({ title, value, trend, trendType, icon: Icon, color }: K
     >
       <div className="flex justify-between items-start mb-4">
         <div className={cn("p-3 rounded-2xl transition-colors", iconBgStyles[color])}>
-          <Icon size={24} />
+          {renderIcon(24)}
         </div>
         <div className={cn(
           "flex items-center gap-1 text-[10px] font-black px-2 py-1 rounded-full",
@@ -57,7 +66,7 @@ export function KPICard({ title, value, trend, trendType, icon: Icon, color }: K
       <div className="mt-4 pt-4 border-t border-dashed border-border flex items-center justify-between">
         <span className="text-[10px] font-bold text-text-muted uppercase tracking-tighter">Current Month</span>
         <button className="p-1 hover:bg-surface-1 rounded-lg transition-colors">
-          <Icon size={14} className="text-text-muted" />
+          {renderIcon(14, 'text-text-muted')}
         </button>
       </div>
     </motion.div>
