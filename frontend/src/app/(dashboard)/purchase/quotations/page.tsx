@@ -9,13 +9,19 @@ import { KPICard } from '@/components/ui/KPICard';
 import { DataTable } from '@/components/tables/DataTable';
 import { TableSkeleton } from '@/components/tables/Skeleton';
 
-export default function PurchaseQuotationPage() {
-  const [loading, setLoading] = useState(true);
+import { useGetPurchaseQuotationsQuery } from '@/store/services/purchaseApi';
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
+export default function PurchaseQuotationPage() {
+  const { data: rawData, isLoading } = useGetPurchaseQuotationsQuery();
+  
+  const data = (rawData?.data?.quotations || []).map((q: any) => ({
+    id: q.code,
+    vendor: q.vendor?.name || 'Unknown',
+    amount: `৳${Number(q.totalAmount).toLocaleString()}`,
+    date: new Date(q.date).toLocaleDateString('en-GB'),
+    validUntil: q.validUntil ? new Date(q.validUntil).toLocaleDateString('en-GB') : 'N/A',
+    status: q.status
+  }));
 
   const columns = [
     { accessorKey: 'id', header: 'Quotation ID' },
@@ -24,11 +30,6 @@ export default function PurchaseQuotationPage() {
     { accessorKey: 'date', header: 'Date' },
     { accessorKey: 'validUntil', header: 'Valid Until' },
     { accessorKey: 'status', header: 'Status' },
-  ];
-
-  const dummyData = [
-    { id: 'PQ-9901', vendor: 'Global Chemicals', amount: '৳450,000', date: '2026-05-01', validUntil: '2026-05-15', status: 'Pending' },
-    { id: 'PQ-9902', vendor: 'Pure Pack', amount: '৳85,000', date: '2026-05-02', validUntil: '2026-05-20', status: 'Approved' },
   ];
 
   return (
@@ -54,7 +55,7 @@ export default function PurchaseQuotationPage() {
         <div className="p-8 border-b border-border flex justify-between items-center bg-surface-1/30">
           <h3 className="text-xl font-syne font-bold text-text-primary">Quotation Ledger</h3>
         </div>
-        {loading ? <TableSkeleton /> : <DataTable columns={columns} data={dummyData} />}
+        {isLoading ? <TableSkeleton /> : <DataTable columns={columns} data={data} />}
       </div>
     </div>
   );

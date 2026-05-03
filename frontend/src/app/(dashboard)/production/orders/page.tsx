@@ -9,13 +9,18 @@ import { KPICard } from '@/components/ui/KPICard';
 import { DataTable } from '@/components/tables/DataTable';
 import { TableSkeleton } from '@/components/tables/Skeleton';
 
-export default function ProductionOrdersPage() {
-  const [loading, setLoading] = useState(true);
+import { useGetProductionOrdersQuery } from '@/store/services/productionApi';
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
+export default function ProductionOrdersPage() {
+  const { data: rawData, isLoading } = useGetProductionOrdersQuery();
+  
+  const data = (rawData?.data?.orders || []).map((order: any) => ({
+    id: order.id.split('-')[0].toUpperCase(),
+    product: order.bom?.finishedProduct?.name || 'Unknown',
+    quantity: `${order.plannedQty} Units`,
+    bom: order.bom?.name || 'N/A',
+    status: order.status
+  }));
 
   const columns = [
     { accessorKey: 'id', header: 'Batch ID' },
@@ -23,12 +28,6 @@ export default function ProductionOrdersPage() {
     { accessorKey: 'quantity', header: 'Target Qty' },
     { accessorKey: 'bom', header: 'BOM Reference' },
     { accessorKey: 'status', header: 'Status' },
-  ];
-
-  const dummyData = [
-    { id: 'BATCH-4401', product: 'Paracetamol 500mg', quantity: '50,000 Units', bom: 'BOM-PA-500', status: 'Running' },
-    { id: 'BATCH-4402', product: 'Amoxicillin 250mg', quantity: '20,000 Units', bom: 'BOM-AM-250', status: 'Pending' },
-    { id: 'BATCH-4403', product: 'Vitamin C Syrup', quantity: '5,000 Bottles', bom: 'BOM-VC-SYP', status: 'Completed' },
   ];
 
   return (
@@ -60,7 +59,7 @@ export default function ProductionOrdersPage() {
             <input type="text" placeholder="Search batches..." className="px-4 py-2 border border-border rounded-xl text-xs focus:ring-2 focus:ring-primary/20" />
           </div>
         </div>
-        {loading ? <TableSkeleton /> : <DataTable columns={columns} data={dummyData} />}
+        {isLoading ? <TableSkeleton /> : <DataTable columns={columns} data={data} />}
       </div>
     </div>
   );

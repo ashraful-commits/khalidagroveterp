@@ -9,13 +9,18 @@ import { KPICard } from '@/components/ui/KPICard';
 import { DataTable } from '@/components/tables/DataTable';
 import { TableSkeleton } from '@/components/tables/Skeleton';
 
-export default function SalesQuotationPage() {
-  const [loading, setLoading] = useState(true);
+import { useGetSalesQuotationsQuery } from '@/store/services/salesApi';
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
+export default function SalesQuotationPage() {
+  const { data: rawData, isLoading } = useGetSalesQuotationsQuery();
+  
+  const data = (rawData?.data?.quotations || []).map((q: any) => ({
+    id: q.code,
+    customer: q.customer?.name || 'Unknown',
+    amount: `৳${Number(q.totalAmount).toLocaleString()}`,
+    date: new Date(q.date).toLocaleDateString('en-GB'),
+    status: q.status
+  }));
 
   const columns = [
     { accessorKey: 'id', header: 'Quotation ID' },
@@ -23,11 +28,6 @@ export default function SalesQuotationPage() {
     { accessorKey: 'amount', header: 'Est. Value' },
     { accessorKey: 'date', header: 'Date' },
     { accessorKey: 'status', header: 'Status' },
-  ];
-
-  const dummyData = [
-    { id: 'SQ-4401', customer: 'Dhaka Pharmacy', amount: '৳150,000', date: '2026-05-01', status: 'Draft' },
-    { id: 'SQ-4402', customer: 'Lazz Pharma', amount: '৳320,000', date: '2026-05-02', status: 'Sent' },
   ];
 
   return (
@@ -53,7 +53,7 @@ export default function SalesQuotationPage() {
         <div className="p-8 border-b border-border flex justify-between items-center bg-surface-1/30">
           <h3 className="text-xl font-syne font-bold text-text-primary">Quotation History</h3>
         </div>
-        {loading ? <TableSkeleton /> : <DataTable columns={columns} data={dummyData} />}
+        {isLoading ? <TableSkeleton /> : <DataTable columns={columns} data={data} />}
       </div>
     </div>
   );

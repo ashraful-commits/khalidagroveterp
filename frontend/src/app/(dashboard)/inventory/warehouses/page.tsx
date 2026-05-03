@@ -9,13 +9,18 @@ import { KPICard } from '@/components/ui/KPICard';
 import { DataTable } from '@/components/tables/DataTable';
 import { TableSkeleton } from '@/components/tables/Skeleton';
 
-export default function WarehousesPage() {
-  const [loading, setLoading] = useState(true);
+import { useGetWarehousesQuery } from '@/store/services/inventoryApi';
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
+export default function WarehousesPage() {
+  const { data: rawData, isLoading } = useGetWarehousesQuery();
+  
+  const data = (rawData?.data?.warehouses || []).map((wh: any) => ({
+    id: wh.id.split('-')[0].toUpperCase(),
+    name: wh.name,
+    location: wh.location || 'N/A',
+    capacity: '0%', // Calculation logic
+    status: 'Active'
+  }));
 
   const columns = [
     { accessorKey: 'id', header: 'Warehouse ID' },
@@ -23,12 +28,6 @@ export default function WarehousesPage() {
     { accessorKey: 'location', header: 'Location' },
     { accessorKey: 'capacity', header: 'Capacity Usage' },
     { accessorKey: 'status', header: 'Status' },
-  ];
-
-  const dummyData = [
-    { id: 'WH-01', name: 'Main Factory Store', location: 'Gazipur', capacity: '85%', status: 'Active' },
-    { id: 'WH-02', name: 'Dhaka Distribution Center', location: 'Tejgaon', capacity: '42%', status: 'Active' },
-    { id: 'WH-03', name: 'Raw Material Godown', location: 'Gazipur', capacity: '95%', status: 'Full' },
   ];
 
   return (
@@ -54,7 +53,7 @@ export default function WarehousesPage() {
         <div className="p-8 border-b border-border flex justify-between items-center bg-surface-1/30">
           <h3 className="text-xl font-syne font-bold text-text-primary">Storage Hubs</h3>
         </div>
-        {loading ? <TableSkeleton /> : <DataTable columns={columns} data={dummyData} />}
+        {isLoading ? <TableSkeleton /> : <DataTable columns={columns} data={data} />}
       </div>
     </div>
   );

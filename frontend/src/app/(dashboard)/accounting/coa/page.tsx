@@ -9,13 +9,18 @@ import { KPICard } from '@/components/ui/KPICard';
 import { DataTable } from '@/components/tables/DataTable';
 import { TableSkeleton } from '@/components/tables/Skeleton';
 
-export default function COAPage() {
-  const [loading, setLoading] = useState(true);
+import { useGetCOAQuery } from '@/store/services/accountingApi';
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
+export default function COAPage() {
+  const { data: rawData, isLoading } = useGetCOAQuery();
+  
+  const data = (rawData?.data?.accounts || []).map((acc: any) => ({
+    code: acc.code,
+    name: acc.name,
+    type: acc.type,
+    balance: '৳0.00', // Calculation logic for balance would go here
+    status: 'Active'
+  }));
 
   const columns = [
     { accessorKey: 'code', header: 'Account Code' },
@@ -23,13 +28,6 @@ export default function COAPage() {
     { accessorKey: 'type', header: 'Type' },
     { accessorKey: 'balance', header: 'Current Balance' },
     { accessorKey: 'status', header: 'Status' },
-  ];
-
-  const dummyData = [
-    { code: '1000', name: 'Cash in Hand', type: 'Asset', balance: '৳850,000', status: 'Active' },
-    { code: '1010', name: 'Bank - Dutch Bangla', type: 'Asset', balance: '৳4,250,000', status: 'Active' },
-    { code: '2000', name: 'Accounts Payable', type: 'Liability', balance: '৳1,200,000', status: 'Active' },
-    { code: '4000', name: 'Sales Revenue', type: 'Income', balance: '৳12,450,000', status: 'Active' },
   ];
 
   return (
@@ -48,14 +46,14 @@ export default function COAPage() {
         <KPICard title="Total Assets" value="৳15.4M" trend="+12%" trendType="up" icon={Wallet} color="blue" />
         <KPICard title="Liabilities" value="৳4.2M" trend="-5%" trendType="down" icon={CreditCard} color="red" />
         <KPICard title="Equity" value="৳11.2M" trend="Stable" trendType="neutral" icon={Calculator} color="purple" />
-        <KPICard title="Active Accounts" value="124" trend="Synced" trendType="neutral" icon={ListTree} color="green" />
+        <KPICard title="Active Accounts" value={data.length.toString()} trend="Synced" trendType="neutral" icon={ListTree} color="green" />
       </div>
 
       <div className="bg-white rounded-[2.5rem] border border-border shadow-sm overflow-hidden">
         <div className="p-8 border-b border-border flex justify-between items-center bg-surface-1/30">
           <h3 className="text-xl font-syne font-bold text-text-primary">Accounting Ledger</h3>
         </div>
-        {loading ? <TableSkeleton /> : <DataTable columns={columns} data={dummyData} />}
+        {isLoading ? <TableSkeleton /> : <DataTable columns={columns} data={data} />}
       </div>
     </div>
   );

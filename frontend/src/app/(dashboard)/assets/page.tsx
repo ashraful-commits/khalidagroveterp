@@ -11,13 +11,18 @@ import { KPICard } from '@/components/ui/KPICard';
 import { DataTable } from '@/components/tables/DataTable';
 import { TableSkeleton } from '@/components/tables/Skeleton';
 
-export default function AssetsPage() {
-  const [loading, setLoading] = useState(true);
+import { useGetAssetsQuery } from '@/store/services/assetsApi';
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
+export default function AssetsPage() {
+  const { data: rawData, isLoading } = useGetAssetsQuery();
+  
+  const data = (rawData?.data?.assets || []).map((ast: any) => ({
+    id: ast.code,
+    name: ast.name,
+    category: ast.category,
+    value: `৳${Number(ast.currentValue).toLocaleString()}`,
+    status: ast.status
+  }));
 
   const columns = [
     { accessorKey: 'id', header: 'Asset ID' },
@@ -25,12 +30,6 @@ export default function AssetsPage() {
     { accessorKey: 'category', header: 'Category' },
     { accessorKey: 'value', header: 'Book Value' },
     { accessorKey: 'status', header: 'Status' },
-  ];
-
-  const dummyData = [
-    { id: 'AST-F-001', name: 'Automatic Mixing Machine', category: 'Factory', value: '৳4,500,000', status: 'Active' },
-    { id: 'AST-V-042', name: 'Distribution Van #4', category: 'Vehicle', value: '৳1,200,000', status: 'Maintenance' },
-    { id: 'AST-O-102', name: 'HQ Server Cluster', category: 'IT', value: '৳850,000', status: 'Active' },
   ];
 
   return (
@@ -107,7 +106,7 @@ export default function AssetsPage() {
                 </button>
               </div>
             </div>
-            {loading ? <TableSkeleton /> : <DataTable columns={columns} data={dummyData} />}
+            {isLoading ? <TableSkeleton /> : <DataTable columns={columns} data={data} />}
           </div>
         </div>
 
