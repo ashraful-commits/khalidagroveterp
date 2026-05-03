@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     ]);
 
     const assets = await prisma.asset.findMany({ take: 10, orderBy: { createdAt: 'desc' } });
-    const totalValue = assets.reduce((s, a) => s + Number(a.purchaseValue), 0);
+    const totalValue = assets.reduce((s: number, a: any) => s + Number(a.purchaseValue), 0);
 
     return sendSuccess('Asset dashboard', { 
       metrics: { total, underMaintenance, totalValue, fullyDepreciated: 0 }, 
